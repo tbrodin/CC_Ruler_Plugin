@@ -1,0 +1,13 @@
+{
+	"type" : "Standard",
+	"name" : "Create Ruler",
+	"icon" : ":/CC/plugin/CreateRulerPlugin/images/icon.png",
+	"description": "Create a ruler",
+	"authors" : [
+		{
+			"name" : "Tim Brodin",
+			"email" : "timbrodin@gmail.com"
+		}
+
+	]
+}
