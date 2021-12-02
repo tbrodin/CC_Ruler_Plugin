@@ -33,6 +33,7 @@
 
 #include <QtGui>
 #include "CreateRulerPlugin.h"
+#include <iostream>
 
 
 // Default constructor:
@@ -134,13 +135,16 @@ void CreateRulerPlugin::performActionCreateRuler()
 			rulerNoOfSegments = lineEditNrSegments->text().toInt();
 
 			ccPlane* rulerContainer = new ccPlane("Ruler");
-
+			
 			int segmentOffset;
 
 			for (int i = 0; i < rulerNoOfSegments; i++) {
-				ccGenericPrimitive* segment = new ccPlane(rulerLength/rulerNoOfSegments, rulerWidth, 0, QString("ruler segment_%1").arg(i + 1));
-				
 				segmentOffset = i * rulerLength / rulerNoOfSegments;
+
+				ccGLMatrix* trans = new ccGLMatrix();
+				trans->setColumn(3, CCVector3(segmentOffset, 0, 0));
+
+				ccGenericPrimitive* segment = new ccPlane(rulerLength/rulerNoOfSegments, rulerWidth, trans, QString("ruler segment_%1").arg(i + 1));
 				
 				if (i % 2) {
 					segment->setColor(ccColor::darkBlue);
@@ -150,12 +154,14 @@ void CreateRulerPlugin::performActionCreateRuler()
 				}
 				
 				segment->showColors(true);
-				segment->translateGL(CCVector3(segmentOffset, 0, 0));
-				rulerContainer->addChild(segment);
+				rulerContainer->merge(segment, false);
 			}
 
 			m_app->addToDB(rulerContainer);
-			
+			//setCameratoTopView 
+			//ccViewportParameters* view = new ccViewportParameters();
+			//view->perspectiveView = false;
+			//view->objectCenteredView = true;
 		}
 
 	}
